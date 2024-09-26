@@ -1,22 +1,38 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Manejo del loader
-    setTimeout(function() {
-        var loader = document.getElementById("loader");
-        if (loader) {
-            loader.classList.add("fade-out");
+    var loader = document.getElementById("loader");
+    var video = document.getElementById("loader-video");
+    var loaderImg = document.getElementById("loader-img");
 
-            var content = document.getElementById("content");
-            if (content) {
-                content.style.display = "block";
-            }
+    // Espera a que el video termine
+    video.addEventListener('ended', function() {
+        // Aplica la clase fade-out al video
+        video.classList.add("fade-out-video");
 
+        // Espera un momento antes de ocultar el video y mostrar el logo
+        setTimeout(function() {
+            // Oculta el video y muestra el logo girando
+            video.style.display = "none";
+            loaderImg.style.display = "flex"; // Muestra el logo girando
+
+            // Después de 2 segundos, aplica el fade-out al loader
             setTimeout(function() {
-                if (loader) {
-                    loader.style.display = "none";
+                loader.classList.add("fade-out");
+
+                var content = document.getElementById("content");
+                if (content) {
+                    content.style.display = "block"; // Muestra el contenido de la página
                 }
-            }, 500);
-        }
-    }, 1000);
+
+                setTimeout(function() {
+                    if (loader) {
+                        loader.style.display = "none"; // Oculta el loader
+                    }
+                }, 500); // Duración del fade-out
+            }, 2000); // Duración del logo girando
+        }, 500); // Tiempo para permitir el fade-out del video
+    });
+});
+
 
     // Manejo del carrusel
     var currentIndex = 0;
@@ -62,4 +78,4 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener('scroll', checkFooterVisibility);
     // Llama a la función al cargar la página por si ya estamos al final
     checkFooterVisibility();
-});
+;
